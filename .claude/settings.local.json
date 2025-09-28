@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.jan.ai)",
+      "Bash(chmod:*)",
+      "Bash(find:*)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

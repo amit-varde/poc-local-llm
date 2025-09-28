@@ -1,0 +1,3 @@
+[submodule "libs/envutils"]
+	path = libs/envutils
+	url = git@github.com:bazinga-labs/bz-envutils.git

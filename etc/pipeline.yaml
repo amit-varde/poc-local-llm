@@ -1,0 +1,46 @@
+# Local LLM Pipeline Configuration
+
+# Application settings
+app:
+  name: "Local LLM Pipeline"
+  version: "0.1.0"
+  debug: false
+  log_level: "INFO"
+
+# Directories
+paths:
+  models: "./models"
+  logs: "./logs"
+  cache: "./cache"
+
+# Resource limits
+resources:
+  max_memory_gb: 8
+  max_cpu_cores: 4
+  gpu_enabled: false
+  gpu_layers: 0
+
+# Model defaults
+model:
+  default_model: "llama-2-7b-chat"
+  context_length: 4096
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 0.9
+  top_k: 40
+  repeat_penalty: 1.1
+
+# Inference settings
+inference:
+  batch_size: 1
+  threads: -1  # -1 = auto-detect
+  use_mmap: true
+  use_mlock: false
+  low_vram: false
+
+# Logging
+logging:
+  file: "./logs/pipeline.log"
+  max_size_mb: 100
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

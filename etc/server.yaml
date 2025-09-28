@@ -1,0 +1,77 @@
+# API Server Configuration
+
+# Server settings
+server:
+  host: "127.0.0.1"
+  port: 8000
+  workers: 1
+  reload: false
+  access_log: true
+
+# API settings
+api:
+  title: "Local LLM Pipeline API"
+  description: "OpenAI-compatible API for local LLM inference"
+  version: "0.1.0"
+  openapi_url: "/openapi.json"
+  docs_url: "/docs"
+  redoc_url: "/redoc"
+
+# CORS settings
+cors:
+  allow_origins:
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"
+  allow_credentials: true
+  allow_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  allow_headers:
+    - "*"
+
+# Rate limiting
+rate_limit:
+  enabled: false
+  requests_per_minute: 60
+  burst_size: 10
+
+# Authentication
+auth:
+  enabled: false
+  api_key: null
+  bearer_token: null
+
+# Request/Response limits
+limits:
+  max_request_size_mb: 10
+  max_response_size_mb: 50
+  request_timeout_seconds: 300
+
+# Health check
+health:
+  endpoint: "/health"
+  include_model_status: true
+  include_system_stats: true
+
+# Endpoints configuration
+endpoints:
+  # OpenAI Compatible
+  chat_completions: "/v1/chat/completions"
+  completions: "/v1/completions"
+  models: "/v1/models"
+
+  # Custom endpoints
+  model_info: "/api/v1/model/info"
+  model_load: "/api/v1/model/load"
+  model_unload: "/api/v1/model/unload"
+  system_status: "/api/v1/system/status"
+
+# WebSocket settings
+websocket:
+  enabled: true
+  endpoint: "/ws"
+  max_connections: 10
+  heartbeat_interval: 30

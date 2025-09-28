@@ -1,0 +1,118 @@
+# Model Context Protocol (MCP) Configuration
+
+# MCP Server settings
+server:
+  enabled: true
+  name: "Local LLM Pipeline"
+  version: "0.1.0"
+  transport: "stdio"  # "stdio" or "http"
+
+  # HTTP transport settings (when transport is "http")
+  http:
+    host: "127.0.0.1"
+    port: 9000
+
+  # Tools to expose via MCP
+  tools:
+    llm_chat:
+      enabled: true
+      description: "Chat with local LLM models"
+      max_tokens: 4096
+
+    llm_complete:
+      enabled: true
+      description: "Text completion with local LLM"
+      max_tokens: 2048
+
+    list_models:
+      enabled: true
+      description: "List available local models"
+
+    load_model:
+      enabled: true
+      description: "Load a specific model"
+      require_confirmation: true
+
+    model_info:
+      enabled: true
+      description: "Get detailed information about a model"
+
+    system_status:
+      enabled: true
+      description: "Get system status and performance metrics"
+
+  # Resources to expose via MCP
+  resources:
+    model_list:
+      enabled: true
+      uri: "model://available"
+      name: "Available Models"
+      description: "List of available local models with details"
+
+    model_configs:
+      enabled: true
+      uri: "config://models"
+      name: "Model Configurations"
+      description: "Model configuration and settings"
+
+  # Prompts to expose via MCP
+  prompts:
+    chat_template:
+      enabled: true
+      name: "Chat Template"
+      description: "Template for chat conversations with system message"
+
+    code_assistant:
+      enabled: true
+      name: "Code Assistant"
+      description: "Template for code generation and assistance"
+
+# MCP Client settings (for connecting to external MCP servers)
+client:
+  enabled: false
+
+  # External MCP servers to connect to
+  servers: []
+    # Example:
+    # - name: "filesystem"
+    #   command: "npx"
+    #   args: ["@modelcontextprotocol/server-filesystem", "/path/to/allowed/files"]
+    #
+    # - name: "github"
+    #   command: "uvx"
+    #   args: ["mcp-server-github"]
+    #   env:
+    #     GITHUB_PERSONAL_ACCESS_TOKEN: "your_token_here"
+
+# Security settings
+security:
+  # Require user confirmation for potentially destructive operations
+  require_confirmation:
+    - "load_model"
+    - "system_commands"
+
+  # Rate limiting
+  rate_limit:
+    enabled: true
+    requests_per_minute: 30
+    burst_size: 5
+
+  # Access control
+  allowed_operations:
+    - "read"
+    - "inference"
+    - "model_management"
+    # - "system_control"  # Uncomment to allow system-level operations
+
+  # Audit logging
+  audit_log:
+    enabled: true
+    file: "./logs/mcp_audit.log"
+    include_request_data: false  # Set to true for detailed debugging
+
+# Logging configuration for MCP
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "./logs/mcp.log"
+  max_size_mb: 50
+  backup_count: 3

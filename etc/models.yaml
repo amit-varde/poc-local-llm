@@ -1,0 +1,76 @@
+# Model Definitions and Registry
+
+models:
+  # Llama 2 Models
+  llama-2-7b-chat:
+    name: "Llama 2 7B Chat"
+    filename: "llama-2-7b-chat.Q4_K_M.gguf"
+    url: "https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf"
+    size_gb: 4.1
+    context_length: 4096
+    type: "chat"
+    quantization: "Q4_K_M"
+    description: "Llama 2 7B model fine-tuned for chat/conversation"
+
+  llama-2-13b-chat:
+    name: "Llama 2 13B Chat"
+    filename: "llama-2-13b-chat.Q4_K_M.gguf"
+    url: "https://huggingface.co/TheBloke/Llama-2-13B-Chat-GGUF/resolve/main/llama-2-13b-chat.Q4_K_M.gguf"
+    size_gb: 7.3
+    context_length: 4096
+    type: "chat"
+    quantization: "Q4_K_M"
+    description: "Llama 2 13B model fine-tuned for chat/conversation"
+
+  # Code Llama Models
+  code-llama-7b:
+    name: "Code Llama 7B"
+    filename: "code-llama-7b.Q4_K_M.gguf"
+    url: "https://huggingface.co/TheBloke/CodeLlama-7B-GGUF/resolve/main/codellama-7b.Q4_K_M.gguf"
+    size_gb: 4.1
+    context_length: 16384
+    type: "code"
+    quantization: "Q4_K_M"
+    description: "Code Llama 7B model for code generation"
+
+  # Mistral Models
+  mistral-7b-instruct:
+    name: "Mistral 7B Instruct"
+    filename: "mistral-7b-instruct-v0.1.Q4_K_M.gguf"
+    url: "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF/resolve/main/mistral-7b-instruct-v0.1.Q4_K_M.gguf"
+    size_gb: 4.1
+    context_length: 32768
+    type: "instruct"
+    quantization: "Q4_K_M"
+    description: "Mistral 7B model fine-tuned for instruction following"
+
+  # Tiny models for testing
+  tinyllama-1b:
+    name: "TinyLlama 1.1B"
+    filename: "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+    url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+    size_gb: 0.6
+    context_length: 2048
+    type: "chat"
+    quantization: "Q4_K_M"
+    description: "Tiny model for testing and low-resource environments"
+
+# Model categories
+categories:
+  chat:
+    - "llama-2-7b-chat"
+    - "llama-2-13b-chat"
+    - "tinyllama-1b"
+
+  code:
+    - "code-llama-7b"
+
+  instruct:
+    - "mistral-7b-instruct"
+
+# Download settings
+download:
+  chunk_size: 8192
+  retry_attempts: 3
+  timeout_seconds: 300
+  verify_checksum: true

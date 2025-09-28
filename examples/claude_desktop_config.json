@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "local-llm": {
+      "command": "/absolute/path/to/local-llm-pipeline/bin/mcp-server.sh",
+      "args": ["start"],
+      "env": {}
+    }
+  }
+}
