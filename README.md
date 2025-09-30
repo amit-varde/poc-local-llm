@@ -31,14 +31,11 @@ This will:
 ### 2. Download a Model
 
 ```bash
-# Activate the environment (if not already)
-source venv/bin/activate
-
 # Download a small model for testing
-./bin/llm-cli.sh model download tinyllama-1b
+./bin/poc model download tinyllama-1b
 
 # Or download a more capable model
-./bin/llm-cli.sh model download llama-2-7b-chat
+./bin/poc model download llama-2-7b-chat
 ```
 
 ### 3. Start the Server
@@ -72,7 +69,7 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 
 ```bash
 # Start an interactive chat session
-./bin/llm-cli.sh chat start --model tinyllama-1b
+./bin/poc chat start --model tinyllama-1b
 ```
 
 ### 6. MCP Integration (Universal AI App Access)
@@ -85,7 +82,7 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 ./bin/mcp-server.sh test
 
 # List available MCP tools
-./bin/llm-cli.sh mcp tools
+./bin/poc mcp tools
 ```
 
 ## Architecture
@@ -95,7 +92,7 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 │   CLI/Client    │◄──►│   API Server     │◄──►│  Inference      │
 │                 │    │  (FastAPI)       │    │  Engine         │
 └─────────────────┘    └──────────────────┘    │  (llama.cpp)    │
-                              │                 └─────────────────┘
+                              │                └─────────────────┘
                               ▼                           │
                        ┌──────────────────┐              │
                        │  Configuration   │              │
@@ -141,16 +138,16 @@ local-llm-pipeline/
 
 ```bash
 # List available models
-./bin/llm-cli.sh model list
+./bin/poc model list
 
 # Get model information
-./bin/llm-cli.sh model info llama-2-7b-chat
+./bin/poc model info llama-2-7b-chat
 
 # Download a model
-./bin/llm-cli.sh model download tinyllama-1b
+./bin/poc model download tinyllama-1b
 
 # Delete a model
-./bin/llm-cli.sh model delete tinyllama-1b --force
+./bin/poc model delete tinyllama-1b --force
 ```
 
 ### Server Management
@@ -173,10 +170,10 @@ local-llm-pipeline/
 
 ```bash
 # Start interactive chat
-./bin/llm-cli.sh chat start --model llama-2-7b-chat
+./bin/poc chat start --model llama-2-7b-chat
 
 # With custom settings
-./bin/llm-cli.sh chat start \
+./bin/poc chat start \
   --model llama-2-7b-chat \
   --temperature 0.8 \
   --max-tokens 1024 \
@@ -196,11 +193,11 @@ local-llm-pipeline/
 ./bin/mcp-server.sh test
 
 # List MCP tools and resources
-./bin/llm-cli.sh mcp tools
-./bin/llm-cli.sh mcp resources
+./bin/poc mcp tools
+./bin/poc mcp resources
 
 # Check MCP configuration
-./bin/llm-cli.sh mcp config
+./bin/poc mcp config
 ```
 
 ### Python MCP Client
@@ -406,22 +403,13 @@ pytest tests/
 **Model Download Fails**
 ```bash
 # Check network connection and try again
-./bin/llm-cli.sh model download tinyllama-1b
-```
-
-**Server Won't Start**
-```bash
-# Check if port is in use
-lsof -i :8000
-
-# Start on different port
-./bin/server.sh start --port 8080
+./bin/poc model download tinyllama-1b
 ```
 
 **Out of Memory**
 ```bash
 # Use a smaller model
-./bin/llm-cli.sh model download tinyllama-1b
+./bin/poc model download tinyllama-1b
 
 # Or adjust memory settings in etc/pipeline.yaml
 ```
@@ -489,3 +477,30 @@ MIT License - see LICENSE file for details.
 - [Typer](https://typer.tiangolo.com/) - CLI framework
 - [Model Context Protocol](https://modelcontextprotocol.io/) - Standardized AI integration
 - [Anthropic](https://www.anthropic.com/) - MCP specification and implementation
+
+## Requirements
+
+```text
+- fastapi>=0.104.0
+- uvicorn[standard]>=0.24.0
+- llama-cpp-python>=0.2.0
+- click>=8.1.0
+- pyyaml>=6.0
+- pydantic>=2.5.0
+- httpx>=0.25.0
+- rich>=13.0.0
+- typer>=0.9.0
+- mcp>=1.0.0
+- anyio>=4.0.0
+- psutil>=5.9.0
+- requests>=2.31.0
+- nest_asyncio>=1.6.0
+```
+
+If you are using the markdown code block for requirements, add `nest_asyncio` to the list. If you are just listing requirements in prose, mention it as a new dependency for event loop compatibility in CLI tools.
+
+---
+
+Optionally, in the **Troubleshooting** or **Development** section, add a note:
+
+> If you see errors about event loops or coroutines not awaited, ensure `nest_asyncio` is installed in your virtual environment.

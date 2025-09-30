@@ -4,7 +4,7 @@ import asyncio
 import logging
 import time
 from pathlib import Path
-from typing import Optional, AsyncIterator, Dict, Any
+from typing import Optional, AsyncIterator, Dict, Any, List
 from contextlib import asynccontextmanager
 
 try:

@@ -7,7 +7,8 @@ from .types import (
     ChatMessage,
     ChatRequest,
     ChatResponse,
-    ModelStats
+    ModelStats,
+    MessageRole
 )
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     "ChatMessage",
     "ChatRequest",
     "ChatResponse",
-    "ModelStats"
+    "ModelStats",
+    "MessageRole"
 ]

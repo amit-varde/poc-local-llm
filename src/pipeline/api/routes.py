@@ -16,7 +16,7 @@ from ..inference import (
     ChatMessage,
     MessageRole
 )
-from .app import get_inference_engine
+from .utils import get_inference_engine
 
 logger = logging.getLogger(__name__)
 

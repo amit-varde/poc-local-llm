@@ -9,6 +9,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.progress import Progress
 from rich import print as rich_print
+import warnings
 
 from ..config import get_config
 from ..models import ModelManager
@@ -16,6 +17,8 @@ from ..inference import InferenceEngine, ChatMessage, ChatRequest, MessageRole
 from .server import ServerManager
 from ..mcp.server import MCPServer
 from ..mcp.config import get_mcp_config
+
+warnings.filterwarnings("ignore", category=RuntimeWarning, message=".*found in sys.modules after import of package.*")
 
 # Setup console and app
 console = Console()
@@ -330,7 +333,7 @@ def init_project():
 @app.command("version")
 def version():
     """Show version information."""
-    from ... import __version__
+    from .. import __version__
     rich_print(f"Local LLM Pipeline v{__version__}")
 
 

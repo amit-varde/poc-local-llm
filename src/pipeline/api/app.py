@@ -10,6 +10,7 @@ from ..config import get_config
 from ..inference import InferenceEngine
 from .routes import router
 from .middleware import setup_middleware
+from .utils import get_inference_engine
 
 logger = logging.getLogger(__name__)
 
@@ -90,11 +91,3 @@ def create_app() -> FastAPI:
         )
 
     return app
-
-
-def get_inference_engine() -> InferenceEngine:
-    """Get the global inference engine instance."""
-    global inference_engine
-    if inference_engine is None:
-        raise RuntimeError("Inference engine not initialized")
-    return inference_engine

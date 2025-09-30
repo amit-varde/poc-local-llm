@@ -1,16 +1,29 @@
 """Model downloading utilities."""
 
-import asyncio
 import hashlib
 import logging
 from pathlib import Path
 from typing import Optional, Callable
 import httpx
 from rich.progress import Progress, DownloadColumn, BarColumn, TaskProgressColumn, TimeElapsedColumn
+import nest_asyncio
 
 from ..config import get_config
 
 logger = logging.getLogger(__name__)
+
+
+def run_async(coro):
+    import asyncio
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+    if loop and loop.is_running():
+        nest_asyncio.apply()
+        return loop.run_until_complete(coro)
+    else:
+        return asyncio.run(coro)
 
 
 class ModelDownloader:
@@ -83,8 +96,8 @@ class ModelDownloader:
         chunk_size = self.registry.download.chunk_size
         timeout = self.registry.download.timeout_seconds
 
-        async with httpx.AsyncClient(timeout=timeout) as client:
-            # Get file size first
+        async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+            # Ensure redirects are followed
             async with client.stream("GET", url) as response:
                 response.raise_for_status()
 
@@ -102,7 +115,7 @@ class ModelDownloader:
 
     def download_model_sync(self, model_id: str) -> Path:
         """Synchronous wrapper for downloading models."""
-        return asyncio.run(self.download_model(model_id))
+        return run_async(self.download_model(model_id))
 
     def download_model_with_progress(self, model_id: str) -> Path:
         """Download model with rich progress bar."""
@@ -134,16 +147,7 @@ class ModelDownloader:
                 if total > 0:
                     progress.update(task, total=total, completed=downloaded)
 
-            # Run async download in sync context
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                result = loop.run_until_complete(
-                    self.download_model(model_id, update_progress)
-                )
-                return result
-            finally:
-                loop.close()
+            return run_async(self.download_model(model_id, update_progress))
 
     def verify_model_checksum(self, model_path: Path, expected_hash: str) -> bool:
         """Verify model file checksum."""
