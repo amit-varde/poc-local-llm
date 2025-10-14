@@ -10,17 +10,21 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 TOOL_NAME="src.pipeline.cli.main" # Name of the Typer app module
 export BZL_VENV="${REPO_ROOT}/venv"
 
+readonly LOG_RED='\033[0;31m'
+readonly LOG_YELLOW='\033[1;33m'
+readonly LOG_BLUE='\033[0;34m'
+readonly LOG_NC='\033[0m' # No Color
+
 # Source logging utilities
-UTILS=("logging" "python_env")
 ENV_UTILS_DIR="${REPO_ROOT}/libs/envutils/bash"
+UTILS=("logging" "python_env")
 for util in "${UTILS[@]}"; do
     [ -f "${ENV_UTILS_DIR}/${util}" ] && { # shellcheck disable=SC1090
         # shellcheck disable=SC1090
         source "${ENV_UTILS_DIR}/${util}"
-        echo "Sourced ${util} utilities"
-
+        echo "${LOG_BLUE} Sourced ${util} utilities${LOG_NC}"
     } || {
-        echo "[ERROR] ${util} utilities not found;"
+        echo "${LOG_RED}[ERROR] ${util} utilities not found;${LOG_NC}"
         return 1
     }
 done
